@@ -64,6 +64,7 @@ questions
 
 answers
 +----> _id
++----> user.id
 +----> question.id
 +----> answer
 +----> mark

@@ -1,0 +1,25 @@
+<% include partials/header.ejs %>
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <h1 class="text-center">Edit</h1>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <form class="form" method="POST" action="/q/edit?_method=PUT">
+        <input type="hidden" name="id" value="<%= q._id %>">
+        <input type="hidden" name="cat_id" value="<%= cat_id %>">
+        <div class="form-group">
+          <textarea type="text" name="question" class="form-control" style="font:'Courier New', Courier, monospace;" placeholder="Type Question"><%= q.question %></textarea>
+        </div>
+        <div class="form-group">
+          <input type="text" name="answer_link" class="form-control" placeholder="Answer Link" value="<%= q.answer_link %>">
+        </div>
+        <input type="submit" value="Submit" class="btn btn-default">
+      </form>
+    </div>
+  </div>
+</div>
+<% include partials/scripts.ejs %>
+<% include partials/footer.ejs %>

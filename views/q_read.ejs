@@ -1,0 +1,65 @@
+<% include partials/header.ejs %>
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 text-center">
+      <h1><%= q_category.questions.length %> <%= q_category.category %></h1>
+      <% if (admin) { %>
+        <a href="/q/add/<%= q_category._id %>" class="btn btn-default">Add Question</a>
+      <% } %>
+        <button class="btn btn-default" id="quiz_me">Quiz Me!</button>
+      <br><br>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-10 col-md-offset-1">
+      <div class="list-group">
+        <% q_category.questions.forEach(function(q, i) { %>
+          <div class="list-group-item clearfix">
+            <% if (user) { %>
+            <a class="btn btn-default">Answer</a>
+            <% } %>
+            <%= i+1 %>. <%= q.question %>
+            <hr>
+            <% if (admin) { %>
+            <a href="/q/edit/<%= q._id %>/<%= q_category._id %>" class="btn btn-default"><i class="fa fa-pencil"></i></a>
+            <button class="btn btn-default delete" data-id="<%= q._id %>" data-name="<%= q.category %>"><i class="fa fa-trash"></i></button>
+            <% } %>
+            <span class="pull-right"><a href="<%= q.answer_link%>" target="_blank"><i class="fa fa-link"></i></a>
+            </span>
+          </div>
+        <% }) %>
+      </div>
+    </div>
+  </div>
+</div>
+<% include partials/scripts.ejs %>
+<script>
+$(function() {
+  $('#quiz_me').click(function() {
+    var num = prompt('How many quiz items do you want? (enter a number)');
+    if (parseInt(num)) {
+      window.location = '/quiz/' + num;
+    }
+  });
+
+  $('.delete').click(function() {
+    var id = $(this).data('id'),
+        question = $(this).data('name');
+    var askDelete = confirm('Are you sure you want to delete ' + question);
+    console.log(id);
+    if (askDelete) {
+      $.ajax({
+        type: 'POST',
+        url: '/q/delete/?_method=DELETE',
+        data: { id: id, cat_id: '<%= q_category._id %>' },
+        dataType: 'json'
+      }).done(function() {
+        location.reload();
+      }).fail(function() {
+        alert('Failed to delete ' + category);
+      });
+    }
+  });
+});
+</script>
+<% include partials/footer.ejs %>

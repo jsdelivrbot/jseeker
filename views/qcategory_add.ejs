@@ -1,0 +1,21 @@
+<% include partials/header.ejs %>
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <h1 class="text-center">Add a Question Category</h1>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6 col-md-offset-3">
+      <form class="form" method="POST">
+        <div class="form-group">
+          <input type="text" name="category" class="form-control input-lg">
+        </div>
+        <input type="submit" value="Submit" class="btn btn-default">
+        <a class="btn btn-default" href="/qa">Cancel</a>
+      </form>
+    </div>
+  </div>
+</div>
+<% include partials/scripts.ejs %>
+<% include partials/footer.ejs %>

@@ -97,6 +97,9 @@ a:hover {
 .navbar-default .navbar-toggle .icon-bar {
   background-color: #1DA1F2; }
 
+.q-form {
+  display: inline; }
+
 @media screen and (max-width: 480px) {
   h3 {
     font-size: 1em; } }

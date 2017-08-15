@@ -43,10 +43,11 @@
             <li><a class="username"><%= user.name %></a></li>
             <li><img src="<%= user.avatar %>" class="navbar-brand"></li>
             <li><a href="/" <% if (page === 'home') { %>class="active"<% } %>>Home</a></li>
-            <li><a href="/protected" <% if (page === 'protected') { %>class="active"<% } %>>Protected</a></li>
+            <li><a href="/qa" <% if (page === 'question_categories') { %>class="active"<% } %>>My Questions</a></li>
             <li><a href="/logout"><i class="fa fa-github"></i> Log-out</a></li>
           <% } else { %>
             <li><a href="/" <% if (page === 'home') { %>class="active"<% } %>>Home</a></li>
+            <li><a href="/qa" <% if (page === 'question_categories') { %>class="active"<% } %>>Questions</a></li>
             <li><a href="/login" <% if (page === 'login') { %>class="active"<% } %>><i class="fa fa-github"></i> Log-in</a></li>
           <% } %>
         </ul>

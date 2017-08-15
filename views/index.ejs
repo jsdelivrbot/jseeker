@@ -1,8 +1,18 @@
 <% include partials/header.ejs %>
 <div class="container">
   <div class="row">
-    <div class="col-md-12">
-      <h1>Welcome jSeeker!</h1>
+    <div class="col-md-8 col-md-offset-2">
+      <h1>Master Front-end JavaScript interview questions</h1>
+      <p class="lead">These are questions that come from a popular github repository <a href="https://github.com/h5bp/Front-end-Developer-Interview-Questions/#html-questions">https://github.com/h5bp/Front-end-Developer-Interview-Questions/#html-questions</a>
+        <br>
+
+      <% if (!user) { %>
+        <p class="lead"><a href="/login">Login</a> to answer, self test and mark if you answered a question correctly. Everything is saved for future reference.</p>
+      <% } %>
+        <div class="text-center">
+          <a class="btn btn-default btn-lg" href="/qa">See Questions</a> <a class="btn btn-default btn-lg">Quiz Me</a>
+        </div>
+      </p>
     </div>
   </div>
 </div>

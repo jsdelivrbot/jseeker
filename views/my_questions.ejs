@@ -1,0 +1,90 @@
+<% include partials/header.ejs %>
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <h1 class="text-center"><%= qcategories.length %> <% if (qcategories.length === 1) { %>Category<% } else { %> Categories <% } %></h1>
+    </div>
+  </div>
+  <% if (admin) { %>
+  <div class="row">
+    <div class="col-md-12 text-center">
+      <a href="/qc/add" class="btn btn-default">Add Category</a>
+      <button class="btn btn-default" id="save_order">Save order</button>
+    </div>
+  </div>
+  <% } %>
+  <div class="row">
+    <div class="col-md-10 col-md-offset-1">
+      <br>
+      <div class="list-group">
+        <% qcategories.forEach(function(qc) { %>
+          <div class="list-group-item">
+            <% if (user) { %>
+            <select name="order" data-id="<%= qc._id %>">
+              <% qcategories.forEach(function(q, i) { %>
+                <% if (qc.order === i+1) { %>
+                <option value="<%- i+1 %>" selected><%- i+1 %></option>
+                <% } else { %>
+                <option value="<%- i+1 %>"><%- i+1 %></option>
+                <% } %>
+              <% }) %>
+            </select>&nbsp;&nbsp;
+            </form>
+            <a href="/qc/edit/<%= qc._id %>" class="btn btn-default"><i class="fa fa-pencil"></i></a>
+            <button class="btn btn-default delete" data-id="<%= qc._id %>" data-name="<%= qc.category %>"><i class="fa fa-trash"></i></button>
+            <% } %>
+            <a href="/q/read/<%= qc._id %>" class="btn btn-default">VIEW<a>
+            <%= qc.questions.length %> <%= qc.category %>
+          </div>
+        <% })%>
+      </div>
+    </div>
+  </div>
+</div>
+<% include partials/scripts.ejs %>
+<script>
+$(function() {
+  // $('.list-group-item').each(function(l) {
+  //   var order = parseInt($(this).data('order'))
+  // });
+
+  // populate the select values on
+  $('#save_order').click(function() {
+    $('select').each(function(e) {
+      var id = $(this).data('id'),
+          order = $(this).val();
+      $.ajax({
+        type: 'POST',
+        url: '/qc/edit_order',
+        data: { id: id, order: order },
+        dataType: 'json'
+      }).done(function(d) {
+        console.log('successfully saved ' + id);
+      }).fail(function(err) {
+        alert('Failed to save order');
+      });
+    });
+    location.reload();
+  });
+
+  $('.delete').click(function() {
+    var id = $(this).data('id'),
+        category = $(this).data('name');
+    var askDelete = confirm('Are you sure you want to delete ' + category);
+    console.log(id);
+    if (askDelete) {
+      $.ajax({
+        type: 'POST',
+        url: '/qc/delete/?_method=DELETE',
+        data: { id: id },
+        dataType: 'json'
+      }).done(function() {
+        location.reload();
+      }).fail(function() {
+        alert('Failed to delete ' + category);
+      });
+    }
+  });
+});
+</script>
+<% include partials/footer.ejs %>
