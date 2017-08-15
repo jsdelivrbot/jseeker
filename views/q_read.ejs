@@ -18,7 +18,7 @@
             <% if (user) { %>
             <a class="btn btn-default">Answer</a>
             <% } %>
-            <%= i+1 %>. <%= q.question %>
+            <%= i+1 %>. <%- marked(q.question) %>
             <hr>
             <% if (admin) { %>
             <a href="/q/edit/<%= q._id %>/<%= q_category._id %>" class="btn btn-default"><i class="fa fa-pencil"></i></a>

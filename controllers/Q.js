@@ -1,8 +1,9 @@
 const mongoose = require('mongoose');
 const Question_category = require('../models/question_categories');
 const Question = require('../models/questions');
-
+const marked = require('marked');
 require('dotenv').config();
+
 module.exports.questionsRead = function(req, res) {
 	if (req.user) {
 		var r = req.user.name == process.env.ADMIN_NAME ? true : false;
@@ -14,6 +15,7 @@ module.exports.questionsRead = function(req, res) {
 				res.status(400).json({message: 'Error'})
 			} else {
 				res.render('q_read', {
+					marked: marked,
 					user: req.user || '',
 					page: 'questions',
 					q_category: q_category,

@@ -9,7 +9,7 @@
     <div class="col-md-6">
       <form class="form" method="POST" action="/q/add/<%= cat_id %>">
         <div class="form-group">
-          <textarea type="text" name="question" class="form-control" style="font:'Courier New', Courier, monospace;" placeholder="Type Question"></textarea>
+          <textarea type="text" name="question" class="form-control" style="font:'Courier New', Courier, monospace;" placeholder="Type Question" id="markdown"></textarea>
         </div>
         <div class="form-group">
           <input type="text" name="answer_link" class="form-control" placeholder="Answer Link">
@@ -17,7 +17,12 @@
         <input type="submit" value="Submit" class="btn btn-default">
       </form>
     </div>
+    <div class="col-md-6">
+      <div id="preview">
+      </div>
+    </div>
   </div>
 </div>
 <% include partials/scripts.ejs %>
+<% include partials/markdown.ejs %>
 <% include partials/footer.ejs %>

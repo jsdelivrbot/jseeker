@@ -11,7 +11,7 @@
         <input type="hidden" name="id" value="<%= q._id %>">
         <input type="hidden" name="cat_id" value="<%= cat_id %>">
         <div class="form-group">
-          <textarea type="text" name="question" class="form-control" style="font:'Courier New', Courier, monospace;" placeholder="Type Question"><%= q.question %></textarea>
+          <textarea type="text" name="question" class="form-control" style="font:'Courier New', Courier, monospace;" placeholder="Type Question" id="markdown"><%= q.question %></textarea>
         </div>
         <div class="form-group">
           <input type="text" name="answer_link" class="form-control" placeholder="Answer Link" value="<%= q.answer_link %>">
@@ -19,7 +19,12 @@
         <input type="submit" value="Submit" class="btn btn-default">
       </form>
     </div>
+    <div class="col-md-6">
+      <div id="preview">
+      </div>
+    </div>
   </div>
 </div>
 <% include partials/scripts.ejs %>
+<% include partials/markdown.ejs %>
 <% include partials/footer.ejs %>

@@ -1,0 +1,9 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.6/marked.min.js"></script>
+<script>
+$(function() {
+  $('#markdown').keyup(function() {
+    var val = $(this).val();
+    $('#preview').html(marked(val));
+  });
+});
+</script>

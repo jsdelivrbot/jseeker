@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Question_category = require('../models/question_categories');
 const Question = require('../models/questions');
+const marked = require('marked');
 
 require('dotenv').config();
 module.exports.questionsRead = function(req, res) {
@@ -29,6 +30,7 @@ module.exports.questionsRead = function(req, res) {
 				});
 
 				res.render('my_questions', {
+					marked: marked,
 					user: req.user || '',
 					page: 'my_questions',
 					qcategories: qc_list,
