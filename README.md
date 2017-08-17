@@ -4,15 +4,14 @@ A Github authenticated app that helps developers with Front-end JavaScript inter
 
 * User will be authenticated through Github (if you don't have one, you should as a developer)
 
-## Front-end JavaScript Developer Q & A
-* User will have access to a list of front end questions, with the ability to google them in a link automatically
-* User will be able to answer the questions, save those answers, and mark them as correct or not (self checking)
-* User will be able to answer random questions, with an option of how many to generate
-* Admin can add questions
-* User will be able to do markdown syntax in their answers
-* User can use (tab) to generate 2 spaces in the answer section
+## User Stories : Front-end JavaScript Developer Q & A
+* As an unauthenticated user, you can view question categories and questions
+* As an unauthenticated user, you can generate random questions with a specific number
+* As an authenticated user, you can answer these questions and save them
+* As an authenticated user, you can generate markdown in your answers
+* As an authenticated user, you can answer generated random questions (quizzes)
 
-## Job Seeker
+## User Stories : Job Seeker
 * User will be able to create a list of jobs he has applied to on a job search site
 * User will be able to see a tally of how many jobs he has applied to in each job search site, and
 

@@ -6,7 +6,11 @@
       <% if (admin) { %>
         <a href="/q/add/<%= q_category._id %>" class="btn btn-default">Add Question</a>
       <% } %>
-        <button class="btn btn-default" id="quiz_me">Quiz Me!</button>
+        <a href="/qa" class="btn btn-default"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back to categories</a>
+        <button class="btn btn-default" id="quiz_me">QUIZ ME</button>
+        <% if (user) { %>
+        <button class="btn btn-default" id="toggle-answers">show / hide all answers</button>
+        <% } %>
       <br><br>
     </div>
   </div>
@@ -14,18 +18,40 @@
     <div class="col-md-10 col-md-offset-1">
       <div class="list-group">
         <% q_category.questions.forEach(function(q, i) { %>
-          <div class="list-group-item clearfix">
-            <% if (user) { %>
-            <a class="btn btn-default">Answer</a>
-            <% } %>
-            <%= i+1 %>. <%- marked(q.question) %>
-            <hr>
-            <% if (admin) { %>
-            <a href="/q/edit/<%= q._id %>/<%= q_category._id %>" class="btn btn-default"><i class="fa fa-pencil"></i></a>
-            <button class="btn btn-default delete" data-id="<%= q._id %>" data-name="<%= q.category %>"><i class="fa fa-trash"></i></button>
-            <% } %>
-            <span class="pull-right"><a href="<%= q.answer_link%>" target="_blank"><i class="fa fa-link"></i></a>
-            </span>
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title"><%- marked(q.question) %></h3>
+            </div>
+            <div class="panel-body">
+              <% foundAnswer = false %>
+              <% if (user) { %>
+                <% answers.forEach(function(a, j) { %>
+                  <% if (a.question.id.toString() == q._id.toString()) { %>
+                    <a class="btn btn-default btn-xs" href="/a/edit/<%= a._id %>"><i class="fa fa-pencil"></i>&nbsp; edit</a>
+                    <button class="btn btn-default answer-delete btn-xs" data-id="<%= a._id %>"><i class="fa fa-trash"></i> delete</button>
+                    <button class="btn btn-default show-answer btn-xs" data-sid="<%= a._id %>">show / hide answer</button>
+                    <% if (a.mark === '1') { %>
+                      <span class="small btn btn-default btn-xs dark-btn">Marked Correct</span>
+                    <% } else if (a.mark === '2') { %>
+                      <span class="small btn btn-default btn-xs">Marked Incorrect</span>
+                    <% } %>
+                    <br>
+                    <span class="answer" data-aid="<%= a._id %>"><%- marked(a.answer) %><span>
+                    <% foundAnswer = true %>
+                  <% } %>
+                <% }) %>
+                <% if (!foundAnswer) { %>
+                  <a class="btn btn-default answer-btn btn-xs" href="/a/add/<%= q._id %>/<%= q_category._id %>" id="answer-<%= q._id %>"><i class="fa fa-plus"></i>&nbsp; answer</a>
+                <% } %>
+              <% } %>
+              <% if (admin) { %>
+              <hr>
+              <a href="/q/edit/<%= q._id %>/<%= q_category._id %>" class="btn btn-default"><i class="fa fa-pencil"></i></a>
+              <button class="btn btn-default delete" data-id="<%= q._id %>" data-name="<%= q.category %>"><i class="fa fa-trash"></i></button>
+              <% } %>
+              <span class="pull-right"><a href="https://www.google.com/search?q=<%= q.question %>" target="_blank"><i class="fa fa-link"></i></a>
+              </span>
+            </div>
           </div>
         <% }) %>
       </div>
@@ -35,11 +61,45 @@
 <% include partials/scripts.ejs %>
 <script>
 $(function() {
+  $('#toggle-answers').click(function() {
+    $('.answer').toggle();
+  });
+
+  $('.show-answer').click(function() {
+    var id = $(this).data('sid');
+    $('span[data-aid="' + id + '"]').toggle();
+  });
+
+  $('.answer-delete').click(function() {
+    var a_id = $(this).data('id');
+    var askDelete = confirm('Are you sure you want to delete this answer?');
+    if (askDelete) {
+      $.ajax({
+        type: 'DELETE',
+        url: '/a/delete',
+        data: { a_id: a_id },
+        dataType: 'json'
+      }).done(function() {
+        location.reload();
+      }).fail(function(err) {
+        alert('Failed to delete answer');
+      });
+    }
+  });
+
   $('#quiz_me').click(function() {
     var num = prompt('How many quiz items do you want? (enter a number)');
     if (parseInt(num)) {
       window.location = '/quiz/' + num;
     }
+  });
+
+  $('.list-group-item').hover(function() {
+    var id = $(this).data('id');
+    $('#answer-' + id).css('opacity', '1');
+  }, function() {
+    var id = $(this).data('id');
+    $('#answer-' + id).css('opacity', '0');
   });
 
   $('.delete').click(function() {

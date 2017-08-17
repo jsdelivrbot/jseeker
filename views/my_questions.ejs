@@ -1,8 +1,15 @@
 <% include partials/header.ejs %>
+<style>
+  .list-group-item:hover {
+    cursor: pointer;
+  }
+</style>
 <div class="container">
   <div class="row">
-    <div class="col-md-12">
-      <h1 class="text-center"><%= qcategories.length %> <% if (qcategories.length === 1) { %>Category<% } else { %> Categories <% } %></h1>
+    <div class="col-md-12 text-center">
+      <h1><%= qcategories.length %> <% if (qcategories.length === 1) { %>Category<% } else { %> Categories <% } %>
+      </h1>
+      <p class="lead"><strong>Select</strong> one or <button class="btn btn-default">QUIZ ME</button></p>
     </div>
   </div>
   <% if (admin) { %>
@@ -14,12 +21,11 @@
   </div>
   <% } %>
   <div class="row">
-    <div class="col-md-10 col-md-offset-1">
-      <br>
+    <div class="col-md-6 col-md-offset-3">
       <div class="list-group">
         <% qcategories.forEach(function(qc) { %>
-          <div class="list-group-item">
-            <% if (user) { %>
+          <div class="list-group-item" data-id="<%= qc._id %>">
+            <% if (admin) { %>
             <select name="order" data-id="<%= qc._id %>">
               <% qcategories.forEach(function(q, i) { %>
                 <% if (qc.order === i+1) { %>
@@ -29,12 +35,10 @@
                 <% } %>
               <% }) %>
             </select>&nbsp;&nbsp;
-            </form>
             <a href="/qc/edit/<%= qc._id %>" class="btn btn-default"><i class="fa fa-pencil"></i></a>
             <button class="btn btn-default delete" data-id="<%= qc._id %>" data-name="<%= qc.category %>"><i class="fa fa-trash"></i></button>
             <% } %>
-            <a href="/q/read/<%= qc._id %>" class="btn btn-default">VIEW<a>
-            <%= qc.questions.length %> <%= qc.category %>
+            <span class="qc_count"><%= qc.questions.length %> -</span> <%= qc.category %>
           </div>
         <% })%>
       </div>
@@ -44,9 +48,10 @@
 <% include partials/scripts.ejs %>
 <script>
 $(function() {
-  // $('.list-group-item').each(function(l) {
-  //   var order = parseInt($(this).data('order'))
-  // });
+  $('.list-group-item').click(function() {
+    var qc_id = $(this).data('id');
+    window.location = '/q/read/' + qc_id;
+  });
 
   // populate the select values on
   $('#save_order').click(function() {

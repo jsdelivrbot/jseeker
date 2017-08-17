@@ -14,6 +14,12 @@ const Answers = new Schema({
 	  	ref: 'Questions'
   	}
   },
+  question_category: {
+    id: {
+      type: Schema.Types.ObjectId,
+	  	ref: 'Question_categories'
+    }
+  },
   answer: String,
   mark: String
 });

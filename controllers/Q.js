@@ -1,26 +1,47 @@
 const mongoose = require('mongoose');
+const User = require('../models/users');
 const Question_category = require('../models/question_categories');
 const Question = require('../models/questions');
+const Answer = require('../models/answers');
 const marked = require('marked');
 require('dotenv').config();
 
 module.exports.questionsRead = function(req, res) {
-	if (req.user) {
-		var r = req.user.name == process.env.ADMIN_NAME ? true : false;
-	}
 	Question_category.findById(req.params.id)
 		.populate('questions')
 		.exec(function(err, q_category) {
 			if (err) {
 				res.status(400).json({message: 'Error'})
 			} else {
-				res.render('q_read', {
-					marked: marked,
-					user: req.user || '',
-					page: 'questions',
-					q_category: q_category,
-					admin: r || false,
-				})
+				if (req.user) {
+					var r = req.user.name == process.env.ADMIN_NAME ? true : false;
+					Answer.find({
+						user: {
+							id: req.user._id
+						}
+					})
+					.where('question_category.id').equals(req.params.id)
+					.exec(function(err, answers) {
+						console.log(answers);
+						res.render('q_read', {
+							marked: marked,
+							user: req.user || '',
+							page: 'questions',
+							q_category: q_category,
+							admin: r || false,
+							answers: answers
+						})
+					});
+				} else {
+					res.render('q_read', {
+						marked: marked,
+						user: req.user || '',
+						page: 'questions',
+						q_category: q_category,
+						admin: r || false,
+						answers: []
+					})
+				}
 			}
 		});
 };

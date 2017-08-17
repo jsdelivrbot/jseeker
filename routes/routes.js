@@ -5,7 +5,7 @@ const router = express.Router(),
 
 const ctrlQA = require('../controllers/QA');
     ctrlQ = require('../controllers/Q'),
-    //ctrlA = require('../controllers/A');
+    ctrlA = require('../controllers/A');
 
 router.get('/', function(req, res) {
   res.render('index', {
@@ -64,10 +64,16 @@ router
 
   .delete('/q/delete', isLoggedIn, ctrlQ.questionDelete)
 
+  // -------
   // Answers
-  // .get('/a/:id', isLoggedIn, ctrlA.answerRead)
-  // .post('/a', isLoggedIn, ctrlA.answerAdd)
-  // .put('/a/:id', isLoggedIn, ctrlA.answerEdit)
-  // .delete('/a/:id', isLoggedIn, ctrlA.answerDelete)
+  .get('/a/read/:q_id/:cat_id', isLoggedIn, ctrlA.answerRead)
+
+  .get('/a/add/:q_id/:cat_id', isLoggedIn, ctrlA.answerAdd)
+  .post('/a/add', isLoggedIn, ctrlA.answerAdd)
+
+  .get('/a/edit/:a_id', isLoggedIn, ctrlA.answerEdit)
+  .put('/a/edit', isLoggedIn, ctrlA.answerEdit)
+
+  .delete('/a/delete', isLoggedIn, ctrlA.answerDelete)
 
 module.exports = router;
