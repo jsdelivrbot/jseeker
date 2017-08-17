@@ -15,6 +15,18 @@ h1 {
 	color: black;
 }
 
+textarea {
+	font-size: 1em;
+	font-family: monospace;
+	background-color: black !important;
+	color: white !important;
+}
+
+.qc_count {
+	color: $gray;
+}
+
+
 .logo {
 	font-family: 'Pacifico', cursive;
 	.whiteish {
@@ -70,6 +82,7 @@ h1 {
 .btn {
 	margin-right: 10px;
 	border-radius: 100px;
+	margin-bottom: 10px;
 }
 
 .btn-twitter {
@@ -80,6 +93,12 @@ h1 {
 
 .thumbnail {
 	max-height: 100px;
+}
+
+.panel-default>.panel-heading {
+	background-color: $blue;
+	color: white;
+	font-size: 1.5em;
 }
 
 .list-group-item:first-child {
