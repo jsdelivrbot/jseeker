@@ -5,7 +5,8 @@ const router = express.Router(),
 
 const ctrlQA = require('../controllers/QA');
     ctrlQ = require('../controllers/Q'),
-    ctrlA = require('../controllers/A');
+    ctrlA = require('../controllers/A'),
+    ctrlQuiz = require('../controllers/quiz');
 
 router.get('/', function(req, res) {
   res.render('index', {
@@ -66,8 +67,6 @@ router
 
   // -------
   // Answers
-  .get('/a/read/:q_id/:cat_id', isLoggedIn, ctrlA.answerRead)
-
   .get('/a/add/:q_id/:cat_id', isLoggedIn, ctrlA.answerAdd)
   .post('/a/add', isLoggedIn, ctrlA.answerAdd)
 
@@ -75,5 +74,11 @@ router
   .put('/a/edit', isLoggedIn, ctrlA.answerEdit)
 
   .delete('/a/delete', isLoggedIn, ctrlA.answerDelete)
+
+  // ------
+  // Quiz
+  .get('/quiz/all/:count', ctrlQuiz.all)
+  .get('/quiz/category/:count/:cat_id', ctrlQuiz.category)
+  .post('/quiz/save_answer/:q_id', ctrlQuiz.saveAnswer);
 
 module.exports = router;

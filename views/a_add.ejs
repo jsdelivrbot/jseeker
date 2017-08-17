@@ -21,6 +21,7 @@
           </select>
         </div>
         <input type="submit" value="SAVE" class="btn btn-default btn-lg">
+        <a href="/q/read/<%= cat_id %>" class="btn btn-default btn-lg">CANCEL</a>
       </form>
     </div>
     <div class="col-md-6">
@@ -31,4 +32,10 @@
 </div>
 <% include partials/scripts.ejs %>
 <% include partials/markdown.ejs %>
+<script>
+$(function() {
+  $('h1').html(marked($('h1').text()));
+});
+</script>
+<% include partials/prettyprint.ejs %>
 <% include partials/footer.ejs %>

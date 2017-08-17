@@ -1,4 +1,5 @@
 <% include partials/header.ejs %>
+<% var answer_count = 0; %>
 <div class="container">
   <div class="row">
     <div class="col-md-12 text-center">
@@ -11,6 +12,9 @@
         <% if (user) { %>
         <button class="btn btn-default" id="toggle-answers">show / hide all answers</button>
         <% } %>
+        <% if (user) { %>
+        <em><span id="answer-count"></span> of <%= q_category.questions.length %> answered (<span id="percent"></span>)</em>
+        <% } %>
       <br><br>
     </div>
   </div>
@@ -20,10 +24,10 @@
         <% q_category.questions.forEach(function(q, i) { %>
           <div class="panel panel-default">
             <div class="panel-heading">
-              <h3 class="panel-title"><%- marked(q.question) %></h3>
+              <h3 class="panel-title"><%= q.question %></h3>
             </div>
             <div class="panel-body">
-              <% foundAnswer = false %>
+              <% foundAnswer = false; %>
               <% if (user) { %>
                 <% answers.forEach(function(a, j) { %>
                   <% if (a.question.id.toString() == q._id.toString()) { %>
@@ -36,8 +40,9 @@
                       <span class="small btn btn-default btn-xs">Marked Incorrect</span>
                     <% } %>
                     <br>
-                    <span class="answer" data-aid="<%= a._id %>"><%- marked(a.answer) %><span>
+                    <span class="answer" data-aid="<%= a._id %>"><%= a.answer %><span>
                     <% foundAnswer = true %>
+                    <% answer_count++; %>
                   <% } %>
                 <% }) %>
                 <% if (!foundAnswer) { %>
@@ -59,8 +64,21 @@
   </div>
 </div>
 <% include partials/scripts.ejs %>
+<% include partials/markdown.ejs %>
 <script>
 $(function() {
+  // cascading ejs script renders answer count 0, this circumvents that
+  $('#answer-count').text('<%= answer_count %>');
+  $('#percent').text(' ' + <%= (answer_count/q_category.questions.length)*100 %> + '% ');
+
+  $('.answer').each(function() {
+    $(this).html(marked($(this).text()));
+  });
+
+  $('.panel-title').each(function() {
+    $(this).html(marked($(this).text()));
+  });
+
   $('#toggle-answers').click(function() {
     $('.answer').toggle();
   });
@@ -88,9 +106,9 @@ $(function() {
   });
 
   $('#quiz_me').click(function() {
-    var num = prompt('How many quiz items do you want? (enter a number)');
-    if (parseInt(num)) {
-      window.location = '/quiz/' + num;
+    var num = prompt('How many quiz items do you want? (enter a number between 1 and <%= q_category.questions.length %>)');
+    if (parseInt(num) && parseInt(num) <= <%= q_category.questions.length %>) {
+      window.location = '/quiz/category/' + num + '/' + '<%= q_category._id %>';
     }
   });
 
@@ -122,4 +140,5 @@ $(function() {
   });
 });
 </script>
+<% include partials/prettyprint.ejs %>
 <% include partials/footer.ejs %>

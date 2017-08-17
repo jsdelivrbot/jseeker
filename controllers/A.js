@@ -3,29 +3,10 @@ const User = require('../models/users');
 const Question = require('../models/questions');
 const Answer = require('../models/answers');
 const marked = require('marked');
+marked.setOptions({
+  sanitize: true
+});
 require('dotenv').config();
-
-module.exports.answerRead = function(req, res) {
-	// // read the user's answer
-	// Answer.find({
-	// 		user: {
-	//
-	// 		}
-	// 		}, function(err, q) {
-	// 		if (err) {
-	// 			res.status(400).json({message: 'Error'})
-	// 		} else {
-	//
-	// 			res.render('q_read', {
-	// 				marked: marked,
-	// 				user: req.user || '',
-	// 				page: 'questions',
-	// 				q_category: q_category,
-	// 				admin: r || false,
-	// 			})
-	// 		}
-	// 	});
-};
 
 module.exports.answerAdd = function(req, res) {
 	if (req.method === 'GET') {
@@ -46,8 +27,6 @@ module.exports.answerAdd = function(req, res) {
 			if (error) { throw error }
 			else {
 				User.findById(req.user._id, function(err, user) {
-					// console.log(q);
-					// console.log(user);
 					var a = new Answer({
 						user: {
 							id: user

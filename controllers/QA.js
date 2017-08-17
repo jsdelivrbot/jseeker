@@ -2,7 +2,9 @@ const mongoose = require('mongoose');
 const Question_category = require('../models/question_categories');
 const Question = require('../models/questions');
 const marked = require('marked');
-
+marked.setOptions({
+  sanitize: true
+});
 require('dotenv').config();
 module.exports.questionsRead = function(req, res) {
 	if (req.user) {

@@ -10,11 +10,21 @@
         <p class="lead"><a href="/login">Login</a> to answer, self test and mark if you answered a question correctly. Everything is saved for future reference.</p>
       <% } %>
         <div class="text-center">
-          <a class="btn btn-default btn-lg" href="/qa">See Questions</a> <a class="btn btn-default btn-lg">Quiz Me</a>
+          <a class="btn btn-default btn-lg" href="/qa">See Questions</a> <a class="btn btn-default btn-lg" id="quiz-btn">Quiz Me</a>
         </div>
       </p>
     </div>
   </div>
 </div>
 <% include partials/scripts.ejs %>
+<script>
+$(function() {
+  $('#quiz-btn').click(function() {
+    var count = prompt('How many quiz items do you want to take out of 136 questions ?' );
+    if (count <= 132 && count !== null) {
+      window.location = 'quiz/all/' + count;
+    }
+  });
+});
+</script>
 <% include partials/footer.ejs %>

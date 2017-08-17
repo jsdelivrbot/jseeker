@@ -4,6 +4,9 @@ const Question_category = require('../models/question_categories');
 const Question = require('../models/questions');
 const Answer = require('../models/answers');
 const marked = require('marked');
+marked.setOptions({
+  sanitize: true
+});
 require('dotenv').config();
 
 module.exports.questionsRead = function(req, res) {

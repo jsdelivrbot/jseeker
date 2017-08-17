@@ -1,0 +1,92 @@
+<% include partials/header.ejs %>
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 text-center">
+      <h1><%= quiz_items.length %> Item Quiz</h1>
+      <a href="/qa" class="btn btn-default"><i class="fa fa-arrow-left"></i> Back to All Questions</a>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-10 col-md-offset-1">
+      <% quiz_items.forEach(function(q, i) { %>
+        <div class="jumbotron" data-index="<%= i %>">
+          <p class="lead"><%= i+1 %> of <%= quiz_items.length %></p>
+          <p class="question" id="q-<%= i %>"><%= q.question %></p>
+          <hr>
+          <textarea row="10" class="form-control" id="answer-area" data-id="<%= q._id %>" placeholder="Type your answer here"></textarea>
+          <% if (user) { %>
+            <br>
+            <button class="btn btn-default btn-xs answer-save-btn" data-id="<%= q._id %>">save</button>
+          <% } %>
+          <hr>
+          <% if (i === 0) { %>
+            <button class="btn btn-default btn-lg next" data-index="<%= i %>">NEXT</button>
+          <% } else if (i === quiz_items.length - 1) { %>
+            <button class="btn btn-default btn-lg previous" data-index="<%= i %>">PREVIOUS</button>
+          <% } else { %>
+            <button class="btn btn-default btn-lg previous" data-index="<%= i %>">PREVIOUS</button>
+            <button class="btn btn-default btn-lg next" data-index="<%= i %>">NEXT</button>
+          <% } %>
+            <a href="https://www.google.com/search?q=<%= q.question %>" target="_blank"><i class="fa fa-link pull-right" style="color: white;"></i></a>
+        </div>
+      <% }) %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12 text-center">
+      <% if (!user) { %>
+        <p class="small">* <a href="/login">Login</a> with Github to save your answers</p>
+      <% } %>
+    </div>
+  </div>
+</div>
+<% include partials/scripts.ejs %>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.6/marked.min.js"></script>
+<script>
+$(function() {
+  $('.answer-save-btn').click(function() {
+    var q_id = $(this).data('id');
+    var answer = $('textarea[data-id="' + q_id + '"]').val();
+    console.log(answer);
+    $.ajax({
+      type: 'POST',
+      url: '/quiz/save_answer/' + q_id,
+      data: { answer: answer},
+      dataType: 'json'
+    }).done(function(result) {
+      console.log(result);
+      alert('Answer saved.');
+    }).fail(function(err) {
+      alert('Failed to save answer');
+    });
+  });
+
+  $('.question').each(function() {
+    var index = $(this).data('index'),
+        text = $(this).text();
+    $(this).html(marked(text));
+  });
+
+  // hide all questions first
+  $('.jumbotron').hide();
+
+  // show first one
+  $('div[data-index="0"]').show();
+
+  // handle previous and next buttons
+  $('.next').click(function() {
+    var index = parseInt($(this).data('index'));
+    $('div[data-index="' + (index) + '"]').hide();
+    $('div[data-index="' + (index+1) + '"]').show();
+  });
+
+  $('.previous').click(function() {
+    var index = parseInt($(this).data('index'));
+    $('div[data-index="' + (index) + '"]').hide();
+    $('div[data-index="' + (index-1) + '"]').show();
+  });
+
+});
+</script>
+<% include partials/prettyprint.ejs %>
+<% include partials/footer.ejs %>

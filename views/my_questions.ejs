@@ -9,7 +9,7 @@
     <div class="col-md-12 text-center">
       <h1><%= qcategories.length %> <% if (qcategories.length === 1) { %>Category<% } else { %> Categories <% } %>
       </h1>
-      <p class="lead"><strong>Select</strong> one or <button class="btn btn-default">QUIZ ME</button></p>
+      <p class="lead"><strong>Select</strong> one or <button class="btn btn-default" id="quiz-btn">QUIZ ME</button></p>
     </div>
   </div>
   <% if (admin) { %>
@@ -23,8 +23,10 @@
   <div class="row">
     <div class="col-md-6 col-md-offset-3">
       <div class="list-group">
+        <% var sum = 0; %>
         <% qcategories.forEach(function(qc) { %>
           <div class="list-group-item" data-id="<%= qc._id %>">
+            <% sum += qc.questions.length %>
             <% if (admin) { %>
             <select name="order" data-id="<%= qc._id %>">
               <% qcategories.forEach(function(q, i) { %>
@@ -48,6 +50,14 @@
 <% include partials/scripts.ejs %>
 <script>
 $(function() {
+  $('#quiz-btn').click(function() {
+    var count = prompt('How many quiz items do you want to take out of ' + '<%= sum %> questions ?' );
+    if (count <= <%= sum %> && count !== null) {
+      console.log(count);
+      window.location = 'quiz/all/' + count;
+    }
+  });
+
   $('.list-group-item').click(function() {
     var qc_id = $(this).data('id');
     window.location = '/q/read/' + qc_id;
@@ -76,7 +86,6 @@ $(function() {
     var id = $(this).data('id'),
         category = $(this).data('name');
     var askDelete = confirm('Are you sure you want to delete ' + category);
-    console.log(id);
     if (askDelete) {
       $.ajax({
         type: 'POST',
@@ -92,4 +101,5 @@ $(function() {
   });
 });
 </script>
+<% include partials/prettyprint.ejs %>
 <% include partials/footer.ejs %>

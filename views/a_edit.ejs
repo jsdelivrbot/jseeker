@@ -44,4 +44,10 @@
 </div>
 <% include partials/scripts.ejs %>
 <% include partials/markdown.ejs %>
+<script>
+$(function() {
+  $('h1').html(marked($('h1').text()));
+});
+</script>
+<% include partials/prettyprint.ejs %>
 <% include partials/footer.ejs %>
