@@ -18,7 +18,10 @@ textarea {
 .qc_count {
   color: #acb1b4; }
 
-.check {
+.fa-check {
+  color: green; }
+
+.fa-meh-o {
   color: red; }
 
 .logo {
