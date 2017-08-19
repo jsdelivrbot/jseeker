@@ -18,6 +18,9 @@ textarea {
 .qc_count {
   color: #acb1b4; }
 
+.check {
+  color: red; }
+
 .logo {
   font-family: 'Pacifico', cursive; }
   .logo .whiteish {
