@@ -4,7 +4,7 @@ $(function() {
   marked.setOptions({
     sanitize: true
   });
-  $('#preview').html(marked('<%= a.answer %>');
+  $('#preview').html(marked($('#markdown').val());
   $('#markdown').keyup(function() {
     var val = $(this).val();
     $('#preview').html(marked(val));
