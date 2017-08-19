@@ -35,9 +35,9 @@
                     <button class="btn btn-default answer-delete btn-xs" data-id="<%= a._id %>"><i class="fa fa-trash"></i> delete</button>
                     <button class="btn btn-default show-answer btn-xs" data-sid="<%= a._id %>">show / hide answer</button>
                     <% if (a.mark === '1') { %>
-                      <span><i class="fa fa-check fa-lg"></i> correct</span>
+                      <span><i class="fa fa-check fa-lg"></i></span>
                     <% } else if (a.mark === '2') { %>
-                      <span><i class="fa fa-meh-o fa-lg" aria-hidden="true"></i> unsure</span>
+                      <span><i class="fa fa-meh-o fa-lg" aria-hidden="true"></i></span>
                     <% } %>
                     <br>
                     <span class="answer" data-aid="<%= a._id %>"><%= a.answer %><span>
