@@ -4,6 +4,7 @@ $(function() {
   marked.setOptions({
     sanitize: true
   });
+  $('#preview').html(marked(val));
   $('#markdown').keyup(function() {
     var val = $(this).val();
     $('#preview').html(marked(val));
