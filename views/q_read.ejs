@@ -69,7 +69,7 @@
 $(function() {
   // cascading ejs script renders answer count 0, this circumvents that
   $('#answer-count').text('<%= answer_count %>');
-  $('#percent').text(' ' + <%= (answer_count/q_category.questions.length)*100 %> + '% ');
+  $('#percent').text(' ' + <%= Math.floor((answer_count/q_category.questions.length)*100) %> + '% ');
 
   $('.answer').each(function() {
     $(this).html(marked($(this).text()));
