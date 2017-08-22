@@ -5,7 +5,12 @@ $menuText: #66757f;
 $whiteish: #fff;
 
 body {
-	background-color: $grayish;
+	background: linear-gradient(
+	rgba(230,236,240,0.7),
+	rgba(230,236,240,0.7)
+	), url('https://res.cloudinary.com/dd6kwd0zn/image/upload/v1503385802/markus-spiske-153926_2_f4opoy.jpg') center center no-repeat fixed;
+	background-size: cover;
+	// background-color: $grayish;
 	font-family: 'Lato', sans-serif;
 	font-size: 18px;
 	-webkit-font-smoothing: antialiased;
@@ -158,5 +163,9 @@ a:hover {
 @media screen and (max-width:480px) {
 	h3 {
 		font-size: 1em;
+	}
+
+	#logo {
+		height: 200px;
 	}
 }
